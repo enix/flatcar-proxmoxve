@@ -36,6 +36,7 @@ jobs:
         run: curl -fsSL $SOURCE_IMAGE_URL > $SOURCE_IMAGE
 
       - name: Download prebuilt Afterburn RPM
+        id: download-afterburn
         uses: robinraju/release-downloader@v1.8
         with:
           repository: enix/afterburn
@@ -57,7 +58,11 @@ jobs:
       - name: Format version name
         run: |
           FLATCAR_VERSION=$(curl -fsSL $VERSION_URL | grep FLATCAR_VERSION_ID | cut -d= -f2)
+          echo FLATCAR_VERSION=$FLATCAR_VERSION >> $GITHUB_ENV
+
           BUILD_VERSION=$(date +'%Y%m%d.%H%M')
+          echo BUILD_VERSION=$BUILD_VERSION >> $GITHUB_ENV
+
           echo VERSION_NAME="v$FLATCAR_VERSION (build $BUILD_VERSION)" >> $GITHUB_ENV
           echo TAG="v$FLATCAR_VERSION+b$BUILD_VERSION" >> $GITHUB_ENV
 
@@ -67,3 +72,7 @@ jobs:
           name: ${{ env.VERSION_NAME }}
           tag: ${{ env.TAG }}
           artifacts: ${{ env.TARGET_IMAGE }}
+          body: |
+            Flatcar Version: ${{ env.FLATCAR_VERSION }}
+            Build Version: ${{ env.BUILD_VERSION }}
+            Afterburn Build Version: ${{ steps.download-afterburn.outputs.tag_name }}
