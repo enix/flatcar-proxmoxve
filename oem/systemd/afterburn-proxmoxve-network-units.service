@@ -1,0 +1,16 @@
+[Unit]
+Description=Afterburn Network Units
+Documentation=https://coreos.github.io/afterburn/
+
+Before=systemd-networkd.service
+
+OnFailure=emergency.target
+OnFailureJobMode=isolate
+
+[Service]
+ExecStart=/opt/bin/afterburn --provider=proxmoxve --network-units=/etc/systemd/network
+Type=oneshot
+RemainAfterExit=yes
+
+[Install]
+RequiredBy=multi-user.target

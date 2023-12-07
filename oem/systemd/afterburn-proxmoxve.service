@@ -6,7 +6,6 @@ Documentation=https://coreos.github.io/afterburn/usage/attributes/
 Type=oneshot
 Environment=AFTERBURN_OPT_PROVIDER=--provider=proxmoxve
 ExecStart=/opt/bin/afterburn ${AFTERBURN_OPT_PROVIDER} --attributes=/run/metadata/afterburn
-ExecStart=/opt/bin/afterburn ${AFTERBURN_OPT_PROVIDER} --network-units=/etc/systemd/network
 RemainAfterExit=yes
 
 [Install]
