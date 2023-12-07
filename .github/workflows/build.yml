@@ -34,8 +34,10 @@ jobs:
         with:
           # required, the artifact is from a different repo
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          # TODO: change repo when merged into upstream
           repo: enix/afterburn
-          branch: main
+          # TODO: change branch when PR merged
+          branch: proxmox-provider
           workflow: rpm.yml
           workflow_conclusion: success
 
