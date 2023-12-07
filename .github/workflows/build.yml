@@ -55,8 +55,10 @@ jobs:
       - name: Build image
         run: ./scripts/build_image.sh $SOURCE_IMAGE $TARGET_IMAGE
 
+      - run: ls -l
+
       - name: Archive image
         uses: actions/upload-artifact@v3
         with:
-          name: $TARGET_IMAGE
-          path: $TARGET_IMAGE
+          name: flatcar_production_proxmoxve_image.img
+          path: flatcar_production_proxmoxve_image.img
