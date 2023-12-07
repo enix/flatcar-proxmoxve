@@ -73,6 +73,6 @@ jobs:
           tag: ${{ env.TAG }}
           artifacts: ${{ env.TARGET_IMAGE }}
           body: |
-            Flatcar Version: ${{ env.FLATCAR_VERSION }}
-            Build Version: ${{ env.BUILD_VERSION }}
+            Flatcar Version: v${{ env.FLATCAR_VERSION }}
+            Build Version: v${{ env.BUILD_VERSION }}
             Afterburn Build Version: ${{ steps.download-afterburn.outputs.tag_name }}
