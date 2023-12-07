@@ -41,7 +41,17 @@ jobs:
           workflow: rpm.yml
           workflow_conclusion: success
 
-      - run: |
+      - name: Extract Afterburn binary from RPM
+        run: |
           export AFTERBURN_RPM_NAME=$(ls rpms | grep -v debug | grep -v dracut | grep -v rust)
           rpm2cpio rpms/$AFTERBURN_RPM_NAME | cpio -idmv
-      - run: ls -lRa
+          cp ./usr/bin/afterburn .
+
+      - name: Build image
+        run: ./scripts/build_image.sh $SOURCE_IMAGE $TARGET_IMAGE
+
+      - name: Archive image
+        uses: actions/upload-artifact@v3
+        with:
+          name: $TARGET_IMAGE
+          path: $TARGET_IMAGE

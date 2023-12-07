@@ -1,0 +1,13 @@
+[Unit]
+Description=Afterburn (SSH Keys)
+
+[Service]
+Type=oneshot
+Environment=AFTERBURN_OPT_PROVIDER=--provider=proxmoxve
+ExecStart=/opt/bin/afterburn ${AFTERBURN_OPT_PROVIDER} --ssh-keys=%i
+ExecStartPost=/bin/bash -c "cat /home/core/.ssh/authorized_keys.d/* > /home/core/.ssh/authorized_keys || true"
+RemainAfterExit=yes
+
+[Install]
+DefaultInstance=core
+RequiredBy=multi-user.target

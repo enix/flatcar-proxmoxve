@@ -1,0 +1,15 @@
+[Unit]
+Description=Afterburn Hostname
+Documentation=https://coreos.github.io/afterburn/
+
+OnFailure=emergency.target
+OnFailureJobMode=isolate
+
+[Service]
+ExecStart=/opt/bin/afterburn --provider=proxmoxve --hostname=/etc/hostname
+ExecStartPost=/bin/bash -c "hostnamectl hostname $(cat /etc/hostname)"
+Type=oneshot
+RemainAfterExit=yes
+
+[Install]
+RequiredBy=basic.target

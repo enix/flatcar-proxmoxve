@@ -1,0 +1,59 @@
+{
+  "ignition": {
+    "version": "2.1.0"
+  },
+  "storage": {
+    "files": [
+      {
+        "filesystem": "root",
+        "path": "/opt/bin/afterburn",
+        "contents": {
+          "source": "oem:///bin/afterburn"
+        },
+        "mode": 755
+      },
+      {
+        "filesystem": "root",
+        "path": "/etc/systemd/system/afterburn-proxmoxve.service",
+        "contents": {
+          "source": "oem:///systemd/afterburn-proxmoxve.service"
+        },
+        "mode": 550
+      },
+      {
+        "filesystem": "root",
+        "path": "/etc/systemd/system/afterburn-proxmoxve-sshkeys@.service",
+        "contents": {
+          "source": "oem:///systemd/afterburn-proxmoxve-sshkeys@.service"
+        },
+        "mode": 550
+      },
+      {
+        "filesystem": "root",
+        "path": "/etc/systemd/system/afterburn-proxmoxve-hostname.service",
+        "contents": {
+          "source": "oem:///systemd/afterburn-proxmoxve-hostname.service"
+        },
+        "mode": 550
+      }
+    ],
+    "links": [
+    ]
+  },
+  "systemd": {
+    "units": [
+      {
+        "name": "afterburn-proxmoxve-sshkeys@.service",
+        "enabled": true
+      },
+      {
+        "name": "afterburn-proxmoxve-hostname.service",
+        "enabled": true
+      },
+      {
+        "name": "afterburn-proxmoxve.service",
+        "enabled": true
+      }
+    ]
+  }
+}
