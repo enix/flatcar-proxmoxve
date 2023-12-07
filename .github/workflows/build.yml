@@ -1,0 +1,48 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+env:
+  TARGET_IMAGE: flatcar_production_proxmoxve_image.img
+  SOURCE_IMAGE: flatcar_production_qemu_image.img
+  SOURCE_IMAGE_URL: https://stable.release.flatcar-linux.net/amd64-usr/current/$SOURCE_IMAGE
+
+# don't waste job slots on superseded code
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-image:
+    name: Build Image
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Download Flatcar QEMU image
+        run: curl -fsSL $SOURCE_IMAGE_URL > $SOURCE_IMAGE
+
+      - name: Download prebuilt Afterburn RPM
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          # required, the artifact is from a different repo
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          repo: enix/afterburn
+          branch: main
+          workflow: rpms.yml
+          workflow_conclusion: success
+
+      - run: ls -lRa
+      - run: sudo apt update -y
+      - run: sudo apt install -y rpm2cpio
+      - run: export AFTERBURN_RPM=$(ls rpms | grep -v debug | grep -v dracut | grep -v rust)
+      - run: echo $AFTERBURN_RPM
+      - run: rpm2cpio $AFTERBURN_RPM | cpio -idmv
+      - run: ls -lRa
