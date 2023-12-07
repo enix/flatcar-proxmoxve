@@ -35,16 +35,14 @@ jobs:
         run: curl -fsSL $SOURCE_IMAGE_URL > $SOURCE_IMAGE
 
       - name: Download prebuilt Afterburn RPM
-        uses: dawidd6/action-download-artifact@v2
+        uses: robinraju/release-downloader@v1.8
         with:
-          # required, the artifact is from a different repo
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          # TODO: change repo when merged into upstream
-          repo: enix/afterburn
-          # TODO: change branch when PR merged
-          branch: proxmox-provider
-          workflow: rpm.yml
-          workflow_conclusion: success
+          repository: enix/afterburn
+          latest: true
+          fileName: '*.rpm'
+          tarBall: false
+          zipBall: false
+          out-file-path: 'rpms'
 
       - name: Extract Afterburn binary from RPM
         run: |
