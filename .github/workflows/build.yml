@@ -41,6 +41,7 @@ jobs:
           workflow: rpm.yml
           workflow_conclusion: success
 
-      - run: ls rpms | grep -v debug | grep -v dracut | grep -v rust
-      - run: rpm2cpio $(ls rpms | grep -v debug | grep -v dracut | grep -v rust) | cpio -idmv
+      - run: |
+          export AFTERBURN_RPM_NAME=$(ls rpms | grep -v debug | grep -v dracut | grep -v rust)
+          rpm2cpio rpms/$AFTERBURN_RPM_NAME | cpio -idmv
       - run: ls -lRa
