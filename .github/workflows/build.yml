@@ -7,6 +7,7 @@ on:
     branches: [main]
 
 env:
+  VERSION_URL: https://stable.release.flatcar-linux.net/amd64-usr/current/version.txt
   SOURCE_IMAGE: flatcar_production_qemu_image.img
   SOURCE_IMAGE_URL: https://stable.release.flatcar-linux.net/amd64-usr/current/flatcar_production_qemu_image.img
   TARGET_IMAGE: flatcar_production_proxmoxve_image.img
@@ -53,9 +54,16 @@ jobs:
       - name: Build image
         run: ./scripts/build_image.sh $SOURCE_IMAGE $TARGET_IMAGE
 
-      - name: Archive image
-        uses: actions/upload-artifact@v3
+      - name: Format version name
+        run: |
+          FLATCAR_VERSION=$(curl -fsSL $VERSION_URL | grep FLATCAR_VERSION_ID | cut -d= -f2)
+          BUILD_VERSION=$(date +'%Y%m%d.%H%M')
+          echo RELEASE="v$FLATCAR_VERSION (build $BUILD_VERSION)" >> $GITHUB_ENV
+          echo TAG="v$FLATCAR_VERSION+build$BUILD_VERSION)" >> $GITHUB_ENV
+
+      - name: Create release
+        uses: ncipollo/release-action@v1
         with:
-          # for some unknown reason env variables cannot be used here :(
-          name: flatcar_production_proxmoxve_image.img
-          path: flatcar_production_proxmoxve_image.img
+          release: ${{ env.RELEASE }}
+          tag: ${{ env.TAG }}
+          artifacts: ${{ env.TARGET_IMAGE }}
