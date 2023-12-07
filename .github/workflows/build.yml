@@ -41,10 +41,6 @@ jobs:
           workflow: rpm.yml
           workflow_conclusion: success
 
-      - run: ls -lRa
-      - run: sudo apt update -y
-      - run: sudo apt install -y rpm2cpio
-      - run: export AFTERBURN_RPM=$(ls rpms | grep -v debug | grep -v dracut | grep -v rust)
-      - run: echo $AFTERBURN_RPM
-      - run: rpm2cpio $AFTERBURN_RPM | cpio -idmv
+      - run: ls rpms | grep -v debug | grep -v dracut | grep -v rust
+      - run: rpm2cpio $(ls rpms | grep -v debug | grep -v dracut | grep -v rust) | cpio -idmv
       - run: ls -lRa
