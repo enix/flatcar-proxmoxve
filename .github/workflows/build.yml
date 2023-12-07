@@ -33,10 +33,10 @@ jobs:
         uses: dawidd6/action-download-artifact@v2
         with:
           # required, the artifact is from a different repo
-          github_token: ${{ secrets.GH_TOKEN }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           repo: enix/afterburn
           branch: main
-          workflow: rpms.yml
+          workflow: rpm.yml
           workflow_conclusion: success
 
       - run: ls -lRa
