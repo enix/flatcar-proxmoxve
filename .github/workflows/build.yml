@@ -5,6 +5,7 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch: {}
 
 env:
   VERSION_URL: https://stable.release.flatcar-linux.net/amd64-usr/current/version.txt
