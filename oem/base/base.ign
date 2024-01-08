@@ -35,6 +35,14 @@
           "source": "oem:///systemd/afterburn-proxmoxve-hostname.service"
         },
         "mode": 550
+      },
+      {
+        "filesystem": "root",
+        "path": "/etc/systemd/system/afterburn-proxmoxve-network-units.service",
+        "contents": {
+          "source": "oem:///systemd/afterburn-proxmoxve-network-units.service"
+        },
+        "mode": 550
       }
     ],
     "links": [
@@ -42,6 +50,10 @@
   },
   "systemd": {
     "units": [
+      {
+        "name": "afterburn-proxmoxve-network-units.service",
+        "enabled": true
+      },
       {
         "name": "afterburn-proxmoxve-sshkeys@.service",
         "enabled": true
