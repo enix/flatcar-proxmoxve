@@ -9,4 +9,4 @@ ExecStart=/opt/bin/afterburn ${AFTERBURN_OPT_PROVIDER} --attributes=/run/metadat
 RemainAfterExit=yes
 
 [Install]
-RequiredBy=metadata.target
+RequiredBy=multi-user.target
